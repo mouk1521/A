@@ -1,0 +1,271 @@
+/* 保持原有的 CSS 樣式 */
+@import url('https://fonts.googleapis.com/earlyaccess/notosans-tc.css');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Noto Sans TC', sans-serif; /* 設置全局字體為思源黑體 */
+}
+
+.title {
+  color: #363330;
+  text-align: center;
+  font-size: 3rem;
+  font-weight: bold; /* 加粗體 */
+}
+
+/* 主要內容區域樣式 */
+#app {
+  padding: 20px;
+  background-color: white;
+}
+
+.tags-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.tag-item {
+  display: flex;
+  align-items: center;
+}
+
+/* 影片區塊樣式 */
+.video-section {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+/* 影片容器樣式 */
+.video-container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.video-container video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  transform: translateX(-50%) translateY(-50%);
+  object-fit: cover;
+}
+
+.video-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5); /* 半透明黑色遮罩 */
+}
+
+.video-overlay h1 {
+  color: white;
+  font-size: 3rem;
+  text-align: center;
+}
+
+.h1 {
+  font-weight: bold;
+}
+
+.weblink {
+  font-family: Comic Sans MS, sans-serif;
+}
+
+.filters {
+  margin-bottom: 20px;
+}
+
+.filter-group {
+  margin-bottom: 10px;
+}
+
+.filter-group div {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+#videos {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.video-item {
+  border: 1px solid rgb(255, 255, 255);
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #f3efdd;
+}
+
+.tag {
+  display: inline-block;
+  font-weight: bold;
+  background-color: #a3d5dc;
+  padding: 2px 5px;
+  margin-right: 5px;
+  border-radius: 3px;
+  font-size: 1.2em;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.address {
+  white-space: pre-line;
+}
+
+select,
+input[type='checkbox'] {
+  background-color: #f3efdd;
+  border: 2px solid #d3d5c9;
+  border-radius: 5px;
+  padding: 5px;
+  font-size: 16px;
+  color: rgb(51, 51, 51);
+}
+
+select:hover,
+input[type='checkbox']:hover {
+  border-color: #a3d5dc;
+}
+
+select:focus,
+input[type='checkbox']:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px #a3d5dc;
+}
+
+input[type='checkbox'] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  vertical-align: middle;
+  cursor: pointer;
+}
+
+input[type='checkbox']:checked {
+  background-color: #a3d5dc;
+  position: relative;
+}
+
+input[type='checkbox']:checked::after {
+  content: '\2714';
+  font-size: 14px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+}
+
+label {
+  cursor: pointer;
+  margin-left: 5px;
+}
+
+.filter-group {
+  background-color: #f3eedb;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 15px;
+}
+
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background-color: #f3efdd;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-weight: bold;
+}
+
+nav a {
+  display: inline-block;
+  min-width: 9rem;
+  padding: 0.75rem 1rem;
+  margin: 0.5rem;
+  border-radius: 0.3rem;
+  text-align: center;
+  text-decoration: none;
+  color: #333333;
+  background-color: #e3e8eb;
+  transition: all 0.3s ease;
+  font-size: 1.2em;
+  border: 2px solid #d3d5c9;
+}
+
+nav a:hover {
+  background-color: #a3d5dc;
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-color: #a3d5dc;
+}
+
+nav a:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px #a3d5dc;
+}
+
+/* 調整影片區塊佈局 */
+#videos {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(300px, 1fr)
+  ); /* 響應式網格佈局 */
+  gap: 20px; /* 增加影片間距 */
+}
+
+.video-item {
+  /* ... (原有樣式) ... */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 增加陰影效果 */
+  transition: all 0.3s ease; /* 增加過渡效果 */
+}
+
+.video-item:hover {
+  transform: translateY(-3px); /* 懸停時向上移動 */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 加強陰影 */
+}
+
+/* 改善色彩搭配 */
+body {
+  background-color: #f0f0f0; /* 淺灰色背景 */
+}
+
+.video-item {
+  background-color: #fff; /* 白色卡片背景 */
+}
+
+.tag {
+  background-color: #e0e0e0; /* 淺灰色標籤背景 */
+  color: #333; /* 深灰色標籤文字 */
+}
+
+/* 優化字體 */
+body {
+  font-family: 'Noto Sans TC', sans-serif; /* 使用更現代的字體 */
+}
+
+.title {
+  font-family: 'Noto Serif TC', serif; /* 標題使用襯線字體 */
+}
