@@ -19,7 +19,7 @@ const app = Vue.createApp({
         '蘆竹區',
       ],
       tags: [], // 用於動態存儲標籤
-      jsonData: [], // 儲存從新API讀取的影片資料
+      jsonData: [], // 儲存從後端 API 讀取的影片資料
       loading: true,
       error: null,
     };
@@ -57,12 +57,12 @@ const app = Vue.createApp({
   methods: {
     async fetchData() {
       try {
-        const response = await fetch('http://fydra.ddns.net/reels');
+        const response = await fetch('http://fydra.ddns.net:8080/reels');
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
         const data = await response.json();
-        this.jsonData = this.transformData(data); // 儲存影片資料
+        this.jsonData = data; // 儲存影片資料
         this.extractTags(this.jsonData); // 從影片資料中提取標籤
         this.loading = false;
         this.$nextTick(() => {
@@ -73,23 +73,14 @@ const app = Vue.createApp({
         this.loading = false;
       }
     },
-    transformData(data) {
-      return data.map((video) => ({
-        Id: video.Id,
-        title: video.title,
-        description: video.description,
-        area: video.area,
-        tags: video.tags,
-        address: video.address.replace(/<br>/g, '\n'), // 處理地址中的換行符號
-        embedUrl: this.convertInstagramUrl(video.embedUrl),
-      }));
-    },
     extractTags(data) {
       const tagSet = new Set(); // 使用Set去重
       data.forEach((video) => {
         video.tags.split(',').forEach((tag) => tagSet.add(tag.trim()));
       });
-      this.tags = Array.from(tagSet).sort(); // 將Set轉換為Array並存儲到`tags`中，並按字母順序排序
+      this.tags = Array.from(tagSet)
+        .map((tag) => tag.replace(/(.)(?=[^,]*,)/g, '$1'))
+        .sort((a, b) => a.length - b.length); // 將Set轉換為Array並存儲到`tags`中，並將標籤組合在一起，按字元數排序
     },
     reloadInstagramEmbeds() {
       if (window.instgrm) {
