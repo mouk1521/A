@@ -27,6 +27,7 @@
       </video>
       <div class="video-overlay">
         <h1>桃園吃喝玩樂攻略</h1>
+        <h2>發現桃園最好吃最好玩的地方</h2>
       </div>
     </div>
     <div id="app">
@@ -74,7 +75,15 @@
               >{{ tag }}</span
             >
           </p>
-          <p class="address">🗺️地址: {{ video.address }}</p>
+          <p class="address">
+            🗺️地址:
+            <a
+              :href="'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(video.address)"
+              target="_blank"
+            >
+              {{ video.address }}
+            </a>
+          </p>
           <br />
 
           <blockquote
