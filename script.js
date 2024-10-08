@@ -19,7 +19,7 @@ const app = Vue.createApp({
         '蘆竹區',
       ],
       tags: [], // 用於動態存儲標籤
-      jsonData: [], // 儲存從後端 API 讀取的影片資料
+      jsonData: [], // 儲存從Google Sheets API讀取的影片資料
       loading: true,
       error: null,
     };
@@ -32,7 +32,7 @@ const app = Vue.createApp({
             !this.selectedArea || video.area.includes(this.selectedArea);
           const tagMatch =
             this.selectedTags.length === 0 ||
-            this.selectedTags.every((tag) => video.tags.includes(tag));
+            this.selectedTags.some((tag) => video.tags.includes(tag));
           return areaMatch && tagMatch;
         })
         .map((video) => ({
@@ -57,12 +57,19 @@ const app = Vue.createApp({
   methods: {
     async fetchData() {
       try {
-        const response = await fetch('http://fydra.ddns.net:8080/reels');
+        const abc = decodeURIComponent(
+          escape(
+            atob(
+              'aHR0cHM6Ly9zaGVldHMuZ29vZ2xlYXBpcy5jb20vdjQvc3ByZWFkc2hlZXRzLzFnWXZoMlE2c0YyMmVaNEc2SmVkMF9kZW8xRFhtbmMzbkRmQ24wUERHLVVvL3ZhbHVlcy93ZWI/YWx0PWpzb24ma2V5PUFJemFTeUI2Y2ZkUHRuRVN5WmtPZC1maDNoY2JqMy1yY2RSQy1fdw=='
+            )
+          )
+        );
+        const response = await fetch(abc);
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
         const data = await response.json();
-        this.jsonData = data; // 儲存影片資料
+        this.jsonData = this.transformData(data.values); // 儲存影片資料
         this.extractTags(this.jsonData); // 從影片資料中提取標籤
         this.loading = false;
         this.$nextTick(() => {
@@ -72,6 +79,16 @@ const app = Vue.createApp({
         this.error = error.message;
         this.loading = false;
       }
+    },
+    transformData(values) {
+      const headers = values[0];
+      return values.slice(1).map((row) => {
+        const video = {};
+        headers.forEach((header, index) => {
+          video[header] = row[index];
+        });
+        return video;
+      });
     },
     extractTags(data) {
       const tagSet = new Set(); // 使用Set去重
